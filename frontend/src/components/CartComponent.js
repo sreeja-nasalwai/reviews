@@ -1,7 +1,9 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../cartComponent.css'; 
 import '../style.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -33,20 +35,28 @@ function CartComponent() {
     try {
       await axios.post(`http://localhost:3002/cart/delete/${userId}/${productId}`);
       fetchCartData();
+      toast.success('Item deleted successfully');
+      console.log('Toast success: Item deleted');
     } catch (err) {
       console.log(err);
+      toast.error('Error deleting item');
+      console.log('Toast error: Error deleting item');
     }
   };
 
   const handlePlaceOrder = async () => {
     try {
       const response = await axios.post(`http://localhost:3002/order/cart/${userId}`);
-      alert(response.data.message);
+      toast.success(response.data.message);
+      console.log('Toast success:', response.data.message);
       fetchCartData();
-      if (response.data.message !== 'cart is empty')
+      if (response.data.message !== 'cart is empty') {
         navigate('/cartorder');
+      }
     } catch (err) {
       console.log(err);
+      toast.error('Error placing order');
+      console.log('Toast error: Error placing order');
     }
   };
 
@@ -55,11 +65,16 @@ function CartComponent() {
       const response = await axios.post(`http://localhost:3002/cart/incCart/${userId}/${productId}`);
       if (response.data.message === "cart items incremented") {
         fetchCartData();
+        toast.success('Cart item incremented');
+        console.log('Toast success: Cart item incremented');
       } else {
-        alert(response.data.message);
+        toast.error(response.data.message);
+        console.log('Toast error:', response.data.message);
       }
     } catch (err) {
       console.log(err);
+      toast.error('Error incrementing cart item');
+      console.log('Toast error: Error incrementing cart item');
     }
   };
 
@@ -68,17 +83,22 @@ function CartComponent() {
       const response = await axios.post(`http://localhost:3002/cart/decCart/${userId}/${productId}`);
       if (response.data.message === "cart items decremented") {
         fetchCartData();
+        toast.success('Cart item decremented');
+        console.log('Toast success: Cart item decremented');
       } else {
-        alert(response.data.message);
-        fetchCartData();
+        toast.error(response.data.message);
+        console.log('Toast error:', response.data.message);
       }
     } catch (err) {
       console.log(err);
+      toast.error('Error decrementing cart item');
+      console.log('Toast error: Error decrementing cart item');
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
         <button className="button btn1" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={handlePlaceOrder}>
           Place order

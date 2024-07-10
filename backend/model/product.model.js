@@ -25,6 +25,7 @@ const productSchema=mongoose.Schema({
         required:true,
     },
     description:String,
+    
     quantity:{
         type:Number,
         default:1  

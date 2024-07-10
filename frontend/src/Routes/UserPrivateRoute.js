@@ -1,20 +1,29 @@
+import { useEffect } from 'react';
 import { useAuth } from '../Provider/AuthProvider'; // Ensure the path is correct
 import { Navigate, Outlet } from 'react-router-dom';
-import Popup from 'react-popup';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const UserPrivateRoute = () => {
-    const { token } = useAuth();
-    const {role} =useAuth();
-   
-    if(!token){
-        return <Navigate to="/login"/>
-    }
-    else if (role !== 'user') {
-        alert("you cant access this page")
+    const { token, role } = useAuth();
+
+    useEffect(() => {
+        if (role !== 'user' && token) {
+            toast.error("You can't access this page");
+        }
+    }, [role, token]);
+
+    if (!token) {
+        return <Navigate to="/login" />;
+    } else if (role !== 'user') {
         return <Navigate to="/" />;
-    }
-    else{
-        
-        return <Outlet />
+    } else {
+        return (
+            <>
+                <ToastContainer />
+                <Outlet />
+            </>
+        );
     }
 };
 

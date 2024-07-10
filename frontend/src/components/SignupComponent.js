@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { FloatingLabel } from "react-bootstrap";
-// import { setAuthenticationHeader } from "../authenticate";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUpComponent = () => {
     const [email, setEmail] = useState("");
@@ -23,20 +24,21 @@ const SignUpComponent = () => {
             });
 
             if (response.data.message === 'User already exists') {
-                alert('User already exists');
+                toast.error('User already exists');
             } else {
                 const token = response.data.token;
                 localStorage.setItem('jsonwebtoken', token);
-                // setAuthenticationHeader(token);
+                toast.success('Sign up successful!');
                 navigate('/login');
             }
         } catch (error) {
-            console.error("Error:", error);
+            toast.error("Error: " + error.message);
         }
     };
 
     return (
         <div className="container">
+            <ToastContainer />
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card mt-5">
@@ -44,17 +46,15 @@ const SignUpComponent = () => {
                             <h1 className="text-center mb-4">Sign Up</h1>
                             <form onSubmit={handleSubmit}>
                                 <FloatingLabel label="Email :" className="mb-3">
-                                    
                                     <input type="email" id="email" className="form-control" placeholder="Enter your email" required onChange={(e) => setEmail(e.target.value)} />
                                 </FloatingLabel>
-                                <FloatingLabel label="Password :"className="mb-3">
+                                <FloatingLabel label="Password :" className="mb-3">
                                     <input type="password" id="pass" className="form-control" placeholder="Enter your password" required onChange={(e) => setPassword(e.target.value)} />
                                 </FloatingLabel>
-                                    <FloatingLabel label="UserName :" className="mb-3">
+                                <FloatingLabel label="UserName :" className="mb-3">
                                     <input type="text" id="username" className="form-control" placeholder="Enter your username" required onChange={(e) => setUsername(e.target.value)} />
-                                    </FloatingLabel>                         
-                                    <FloatingLabel label ="Mobile Number :"className="mb-3">
-                                   
+                                </FloatingLabel>
+                                <FloatingLabel label="Mobile Number :" className="mb-3">
                                     <input type="number" id="mobileNumber" className="form-control" placeholder="Enter your phone number" required onChange={(e) => setMobileNumber(e.target.value)} />
                                 </FloatingLabel>
                                 <div className="mb-3 form-check">

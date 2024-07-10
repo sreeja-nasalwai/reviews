@@ -1,22 +1,17 @@
-import { useAuth } from '../Provider/AuthProvider'; // Ensure the path is correct
+import { useAuth } from '../Provider/AuthProvider';
 import { Navigate, Outlet } from 'react-router-dom';
-import Popup from 'react-popup';
-
+import { toast } from 'react-toastify';
 
 const AdminPrivateRoute = () => {
-    const { token } = useAuth();
-    const {role}=useAuth();
-   
-    if(!token){
-        return <Navigate to="/login"/>
-    }
-    else if (role !== 'admin') {
-    alert('you cannot access this page')
+    const { token, role } = useAuth();
+
+    if (!token) {
+        return <Navigate to="/login" />;
+    } else if (role !== 'admin') {
+        toast.error('You cannot access this page');
         return <Navigate to="/" />;
-    }
-    else{
-        
-        return <Outlet />
+    } else {
+        return <Outlet />;
     }
 };
 

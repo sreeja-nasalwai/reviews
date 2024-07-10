@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PasswordComponent = () => {
     const [currentPassword, setCurrentPassword] = useState("");
@@ -9,25 +11,26 @@ const PasswordComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            alert('Password and confirm password do not match');
+            toast.error('Password and confirm password do not match');
             return;
         }
         
         try {
              await axios.put("http://localhost:3002/signup/update", {
-                userId:localStorage.getItem("userId"), // replace with actual user ID
+                userId: localStorage.getItem("userId"), // replace with actual user ID
                 currentPassword: currentPassword,
                 newPassword: newPassword
             });
-            alert('Password updated successfully');
+            toast.success('Password updated successfully');
         } catch (error) {
             console.error('Error updating password:', error);
-            alert('Error updating password');
+            toast.error('Error updating password');
         }
     };
 
     return (
         <div className="container mt-5">
+            <ToastContainer />
             <form onSubmit={handleSubmit}>
                 <h2 className="mb-4">Change Password</h2>
                 <div className="mb-3">

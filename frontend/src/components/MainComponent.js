@@ -85,7 +85,7 @@ const MainComponent = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <Gif src="https://www.westside.com/cdn/shop/files/Girls_A_ead50d8d-a355-44cd-aeef-81e09dcf3419.gif?v=1715166295" alt="Shopping Gif 2" />
+                            <Gif src="https://assets.ajio.com/cms/AJIO/MOBILE/09112023-FoundryStore-M-Z1-topbanner-sequinstarlet.gif" alt="Shopping Gif 2" />
                         </Col>
                     </Row>
                     <Row>
